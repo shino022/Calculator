@@ -15,29 +15,60 @@ function devide(a, b) {
 }
 
 function operate(a, operator, b) {
+  a = Number(a);
+  b = Number(b);
   if(operator === "+"){
-    return add(a, b);
+    return add(a, b).toString();
   }
   else if(operator === "-"){
-    return subtract(a, b);
+    return subtract(a, b).toString();
   }
   else if(operator === "*"){
-    return multiply(a, b);
+    return multiply(a, b).toString();
   }
   else if(operator === "/"){
-    return devide(a, b);
+    return devide(a, b).toString();
   }
 }
 const numberButtons = document.querySelectorAll('.number');
 const display = document.querySelector('.display');
+const operatorButtons = document.querySelectorAll('.operator');
 let num = '';
-numberButtons.forEach(numberButton => numberButton.addEventListener("click", numberListener));
+let prevNum = '';
+let operator = '';
 
+numberButtons.forEach(numberButton => numberButton.addEventListener("click", numberListener));
+operatorButtons.forEach(operatorButton => operatorButton.addEventListener('click', operatorListener))
 function numberListener(e) {
   let numInput = e.target.id;
   num += numInput;
   displayNumber(num);
 };
+function operatorListener(e) {
+  let operatorInput = e.target.id;
+  if(operatorInput === '='){
+    prevNum = operate(prevNum, operator, num);
+    operate(prevNum, operator, num)
+    displayNumber(prevNum);
+  }
+  else if(operatorInput === 'reset'){
+    num = '';
+    prevNum = '';
+    operator = '';
+    display.textContent ='';
+  }
+  else if(prevNum) {
+    prevNum = operate(prevNum, operator, num);
+    operator = operatorInput;
+    displayNumber(prevNum);
+    num = '';
+  }
+  else {
+    prevNum = num;
+    operator = operatorInput;
+    num = '';
+  }
+}
 function displayNumber(num) {
   display.textContent = num;
 };
