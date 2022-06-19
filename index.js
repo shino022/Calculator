@@ -28,3 +28,16 @@ function operate(a, operator, b) {
     return devide(a, b);
   }
 }
+const numberButtons = document.querySelectorAll('.number');
+const display = document.querySelector('.display');
+let num = '';
+numberButtons.forEach(numberButton => numberButton.addEventListener("click", numberListener));
+
+function numberListener(e) {
+  let numInput = e.target.id;
+  num += numInput;
+  displayNumber(num);
+};
+function displayNumber(num) {
+  display.textContent = num;
+};
